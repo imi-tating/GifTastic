@@ -34,6 +34,8 @@ function generateGifs(gifArray) {
   $("#gifs-container").html('<p id="play-pause-text" class="lead text-muted">(Tap gif to play/pause)</p>');
   stillGifs = [];
   animatedGifs = [];
+  var newCol = $('<div class="col">');
+  $("#gifs-container").append(newCol);
   for (var i = 0; i < gifArray.length; i++) {
     var stillURL = gifArray[i].images.fixed_width_still.url
     var animatedURL = gifArray[i].images.fixed_width.url
@@ -53,7 +55,7 @@ function generateGifs(gifArray) {
     newCard.append(newImgOverlay);
 
 
-    $("#gifs-container").append(newCard);
+    newCol.append(newCard);
 
 
 

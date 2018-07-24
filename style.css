@@ -33,8 +33,7 @@ input {
 
 #play-pause-text {
   font-size: .8rem;
-  /* margin: 0; */
-  /* padding: 0; */
+  margin-bottom: .5rem;
 }
 
 #gifs-container {
@@ -43,8 +42,9 @@ input {
 
 .card {
   max-width: 12rem;
-  margin: auto;
+  margin: auto .5rem;
   border: 0;
+  display: inline-block !important;
 }
 
 .card-body {
