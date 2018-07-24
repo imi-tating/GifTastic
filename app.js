@@ -1,4 +1,4 @@
-var topics = ["cats", "kittens"];
+var topics = ["kitten", "cute", "cuddly", "funny", "silly", "crazy", "sleepy", "space", "computer", "rainbow", "gray", "orange", "purrito", "biscuit", "litter"];
 var stillGifs = [];
 var animatedGifs = [];
 
@@ -7,6 +7,7 @@ function createButtons() {
   for (var i = 0; i < topics.length; i++) {
     var newButton = $("<button>");
     newButton.addClass("btn btn-dark").attr("id",  "btn-" + topics[i]);
+    newButton.attr("data-title", "cats " + topics[i]);
     newButton.text(topics[i]);
     $("#buttons-container").append(newButton);
   }
@@ -46,27 +47,20 @@ function toggler() {
 }
 
 
-
 $(document).ready(function(){
   createButtons();
 
   $(".btn").click(function(){
-    var id = $(this).text();
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + id +"&api_key=UbmXXAGHrjMt1Xbwi9cKpctCgD0xqtoI&limit=10"
+    var id = $(this).attr("data-title");
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + id +"&api_key=UbmXXAGHrjMt1Xbwi9cKpctCgD0xqtoI&limit=10&"
 
     $.ajax({
       url: queryURL,
       method: "GET"
     }).then(function(response){
-      // console.log(response);
       generateGifs(response.data);
-      console.log(animatedGifs);
     });
-
-
-
   });
-
 
   $(document).on("click", ".gif", toggler);
 });
