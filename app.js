@@ -15,6 +15,8 @@ function createButtons() {
 //empties gif-container and then generates 10 gifs per queryURL array given it
 function generateGifs(gifArray) {
   $("#gifs-container").empty();
+  stillGifs = [];
+  animatedGifs = [];
   for (var i = 0; i < gifArray.length; i++) {
     var stillURL = gifArray[i].images.fixed_width_still.url
     var animatedURL = gifArray[i].images.fixed_width.url
@@ -48,21 +50,23 @@ function toggler() {
 $(document).ready(function(){
   createButtons();
 
+  $(".btn").click(function(){
+    var id = $(this).text();
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + id +"&api_key=UbmXXAGHrjMt1Xbwi9cKpctCgD0xqtoI&limit=10"
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response){
+      // console.log(response);
+      generateGifs(response.data);
+      console.log(animatedGifs);
+    });
 
 
-  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + "cats" +"&api_key=UbmXXAGHrjMt1Xbwi9cKpctCgD0xqtoI&limit=10"
 
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(function(response){
-    // console.log(response);
-    generateGifs(response.data);
-    console.log(animatedGifs);
-  })
+  });
+
 
   $(document).on("click", ".gif", toggler);
-
-
-
-})
+});
