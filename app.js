@@ -22,25 +22,40 @@ function displayCatInfo() {
     url: queryURL,
     method: "GET"
   }).then(function(response){
+    console.log(response);
     generateGifs(response.data);
   });
+
 }
 
 //empties gif-container and then generates 10 gifs per queryURL array given it
 function generateGifs(gifArray) {
   $("#gifs-container").empty();
+  $("#gifs-container").html('<p id="play-pause-text" class="lead text-muted">(Tap gif to play/pause)</p>');
   stillGifs = [];
   animatedGifs = [];
   for (var i = 0; i < gifArray.length; i++) {
     var stillURL = gifArray[i].images.fixed_width_still.url
     var animatedURL = gifArray[i].images.fixed_width.url
 
+    var newCard = $('<div class="card">')
+
     var newImg = $("<img>");
     newImg.attr('src', stillURL);
     newImg.attr('alt', gifArray[i].title);
-    newImg.addClass("still gif");
+    newImg.addClass("card-img-top still gif");
     newImg.attr("data-number", i);
-    $("#gifs-container").append(newImg);
+    newCard.append(newImg);
+
+    var newImgOverlay = $('<div class="card-body">');
+    var ratingForOverlay = $('<p class=" card-text lead" style="font-size: .7rem; color: Salmon;">Rating: ' + gifArray[i].rating.toUpperCase() + '</p>');
+    newImgOverlay.append(ratingForOverlay);
+    newCard.append(newImgOverlay);
+
+
+    $("#gifs-container").append(newCard);
+
+
 
     stillGifs.push(stillURL);
     animatedGifs.push(animatedURL);
@@ -78,7 +93,7 @@ $(document).ready(function(){
       alert("This cat type already exists");
       $("#user-input").val("");
     }
-//
+
   });
 
   $(document).on("click", ".gif-btn", displayCatInfo)
