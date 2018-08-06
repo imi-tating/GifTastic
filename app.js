@@ -1,6 +1,7 @@
-var topics = ["kitten", "cute", "cuddly", "funny", "silly", "crazy", "sleepy", "hungry", "pizza", "space", "rainbow", "gray", "orange", "purrito", "biscuit", "litter"];
+var topics = ["kitten", "paws", "cute", "funny", "silly", "crazy", "sleepy", "hungry", "pizza", "space", "rainbow", "gray", "orange", "purrito", "biscuit", "litter"];
 var stillGifs = [];
 var animatedGifs = [];
+// var pagination
 
 //creates intial buttons on screen
 function createButtons() {
@@ -16,7 +17,7 @@ function createButtons() {
 
 function displayCatInfo() {
   var id = $(this).attr("data-title");
-  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + id +"&api_key=UbmXXAGHrjMt1Xbwi9cKpctCgD0xqtoI&limit=10&"
+  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + id +"&api_key=UbmXXAGHrjMt1Xbwi9cKpctCgD0xqtoI&limit=10&offset=" + pagination
 
   $.ajax({
     url: queryURL,
@@ -24,6 +25,7 @@ function displayCatInfo() {
   }).then(function(response){
     console.log(response);
     generateGifs(response.data);
+    showMeMore(response.pagination);
   });
 
 }
@@ -31,6 +33,7 @@ function displayCatInfo() {
 //empties gif-container and then generates 10 gifs per queryURL array given it
 function generateGifs(gifArray) {
   $("#gifs-container").empty();
+  // pagination = 0;
   $("#gifs-container").html('<p id="play-pause-text" class="lead text-muted">(Tap gif to play/pause)</p>');
   stillGifs = [];
   animatedGifs = [];
@@ -54,14 +57,12 @@ function generateGifs(gifArray) {
     newImgOverlay.append(ratingForOverlay);
     newCard.append(newImgOverlay);
 
-
     newCol.append(newCard);
-
-
 
     stillGifs.push(stillURL);
     animatedGifs.push(animatedURL);
   }
+  $("#show-me-more-button").removeClass("invisible").addClass("visible");
 }
 
 //toggles between still and animated gifs
@@ -75,6 +76,17 @@ function toggler() {
     $(this).removeClass("animated").addClass("still");
   }
 }
+
+function showMeMore(paginateMore) {
+  // pagination += 10;
+  
+
+
+
+
+}
+
+
 
 
 $(document).ready(function(){
@@ -100,4 +112,6 @@ $(document).ready(function(){
 
   $(document).on("click", ".gif-btn", displayCatInfo)
   $(document).on("click", ".gif", toggler);
+  $(document).on("click", "#show-me-more-button", showMeMore);
+
 });
